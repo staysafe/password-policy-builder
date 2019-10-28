@@ -22,4 +22,6 @@ before_script:
   - mkdir -p build/logs
 
 script:
+  - composer check-style
+  - composer static-analysis
   - composer test
