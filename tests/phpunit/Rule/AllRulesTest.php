@@ -4,10 +4,10 @@ namespace StaySafe\Password\Policy\Unit\Rule;
 
 use PHPUnit\Framework\TestCase;
 use StaySafe\Password\Policy\Rule\DigitRule;
-use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
-use StaySafe\Password\Policy\Rule\MinimumLengthRule;
 use StaySafe\Password\Policy\Rule\RuleInterface;
+use StaySafe\Password\Policy\Rule\MinimumLengthRule;
 use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
+use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
 use StaySafe\Password\Policy\Rule\UpperCaseCharacterRule;
 
 final class AllRulesTest extends TestCase
