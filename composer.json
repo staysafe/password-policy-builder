@@ -2,7 +2,7 @@
     "name": "staysafe/password-policy-builder",
     "description": "A verbose password policy builder",
     "type": "library",
-    "license": "BSD 3-Clause",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Antonios Pavlakis",
