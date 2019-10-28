@@ -2,7 +2,7 @@
     "name": "staysafe/password-policy-builder",
     "description": "A verbose password policy builder",
     "type": "library",
-    "license": "BSD 3-Clause",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Antonios Pavlakis",
@@ -25,6 +25,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
+        "phpstan/phpstan": "^0.11.19",
         "phpunit/phpunit": "^8.4"
     },
     "config": {
@@ -37,8 +38,14 @@
     "scripts": {
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-html=tests/coverage/ ",
+        "test-coverage-ci": "phpunit --verbose --coverage-clover build/logs/clover.xml",
         "check-style": "php-cs-fixer fix --dry-run",
         "fix-style": "php-cs-fixer fix",
-        "static-analysis": "phpstan analyse src --level 7"
+        "static-analysis": "phpstan analyse src --level 7",
+        "test-ci": [
+            "@check-style",
+            "@static-analysis",
+            "@test-coverage-ci"
+        ]
     }
 }
