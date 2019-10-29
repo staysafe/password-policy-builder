@@ -36,4 +36,9 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
 
         return true;
     }
+
+    public function getPolicy(): PolicyInterface
+    {
+        return $this->policy;
+    }
 }
