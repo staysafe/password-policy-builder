@@ -5,6 +5,7 @@ namespace StaySafe\Password\Policy\Unit\Rule;
 use PHPUnit\Framework\TestCase;
 use StaySafe\Password\Policy\Policy\JsonPolicy;
 use StaySafe\Password\Policy\PasswordPolicyBuilder;
+use StaySafe\Password\Policy\Format\HumanReadablePolicy;
 use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
 
@@ -70,5 +71,22 @@ class JsonPolicyTest extends TestCase
         $jsonConstraints = '{"DoesNotExist":123}';
         $this->expectException(InvalidRuleTypeException::class);
         new JsonPolicy($jsonConstraints);
+    }
+
+    /**
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
+     */
+    public function test_can_view_human_readable_policy(): void
+    {
+        $jsonConstraints = file_get_contents(dirname(__DIR__) . '/fixtures/policy.json');
+        $policy = new JsonPolicy($jsonConstraints);
+
+        $passwordPolicyBuilder = new PasswordPolicyBuilder($policy);
+
+        $this->assertSame(
+            'Password should be at least 8 characters long, have at least 2 special characters, have at least 3 numbers, have at least 1 upper case letter, and have at least 1 lower case letter.',
+            (new HumanReadablePolicy($passwordPolicyBuilder->getPolicy()))->getHumanReadablePolicySentence()
+        );
     }
 }
