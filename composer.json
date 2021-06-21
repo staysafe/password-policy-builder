@@ -49,7 +49,6 @@
         "static-analysis": "phpstan analyse src --level 7",
         "test-ci": [
             "@check-style",
-            "@static-analysis",
             "@test-coverage-ci"
         ]
     }
