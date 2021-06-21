@@ -1,0 +1,43 @@
+name: CI
+on: push
+jobs:
+  security:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '7.2', '7.3' ]
+    steps:
+      - name: checkout project
+        uses: actions/checkout@v2
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      - name: Roave Security advisories
+        run: composer require --dev roave/security-advisories:dev-latest
+      - name: The PHP Security Checker
+        uses: symfonycorp/security-checker-action@v2
+  tests:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '7.2', '7.3' ]
+    steps:
+      - name: checkout project
+        uses: actions/checkout@v2
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      - name: checkout project
+        uses: actions/checkout@v2
+      - name: Setup composer
+        run:  composer install --prefer-dist --no-progress --no-suggest
+      - name: Add coveralls
+        run: composer require --no-update php-coveralls/php-coveralls:^2.0
+      - name: run phpunit
+        run:  composer test-ci
+      - name: Update coveralls
+        run:  php bin/php-coveralls -v
