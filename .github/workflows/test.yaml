@@ -35,9 +35,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup composer
         run:  composer install --prefer-dist --no-progress --no-suggest
-      - name: Add coveralls
-        run: composer require php-coveralls/php-coveralls:^2.0
       - name: run phpunit
         run:  composer test-ci
-      - name: Update coveralls
-        run:  php bin/php-coveralls -v
+      - name: Upload coverage results to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
