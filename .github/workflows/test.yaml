@@ -36,7 +36,7 @@ jobs:
       - name: Setup composer
         run:  composer install --prefer-dist --no-progress --no-suggest
       - name: Add coveralls
-        run: composer require --no-update php-coveralls/php-coveralls:^2.0
+        run: composer require php-coveralls/php-coveralls:^2.0
       - name: run phpunit
         run:  composer test-ci
       - name: Update coveralls
