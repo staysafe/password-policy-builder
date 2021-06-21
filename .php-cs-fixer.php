@@ -1,13 +1,13 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
+$finder = (new PhpCsFixer\Finder())
     ->in([
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
 ;
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR2' => true,
         'php_unit_test_class_requires_covers' => false,
