@@ -1,0 +1,45 @@
+name: CI
+on: push
+jobs:
+  security:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '7.2', '7.3' ]
+    steps:
+      - name: checkout project
+        uses: actions/checkout@v2
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      - name: Roave Security advisories
+        run: composer require --dev roave/security-advisories:dev-latest
+      - name: The PHP Security Checker
+        uses: symfonycorp/security-checker-action@v2
+  tests:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '7.2', '7.3' ]
+    steps:
+      - name: checkout project
+        uses: actions/checkout@v2
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      - name: checkout project
+        uses: actions/checkout@v2
+      - name: Setup composer
+        run:  composer install --prefer-dist --no-progress --no-suggest
+      - name: run phpunit
+        run:  composer test-ci
+      - name: Upload coverage results to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
