@@ -11,7 +11,7 @@ class JsonPolicy implements PolicyInterface
     private const RULE_CLASS_PREFIX = 'StaySafe\\Password\\Policy\\Rule\\';
 
     /**
-     * @var array
+     * @var array<string, RuleInterface>
      */
     private $constraints = [];
 
@@ -41,7 +41,7 @@ class JsonPolicy implements PolicyInterface
         }
 
         foreach ($policy as $constraintClass => $number) {
-            $this->constraints[$constraintClass] = $this->get($constraintClass, $number);
+            $this->constraints[(string)$constraintClass] = $this->get((string)$constraintClass, $number);
         }
     }
 
@@ -60,7 +60,10 @@ class JsonPolicy implements PolicyInterface
             throw new InvalidRuleTypeException(sprintf('Rule class %s does not exist', $ruleClassName));
         }
 
-        return new $ruleClassName($value);
+        /** @var RuleInterface $rule */
+        $rule = new $ruleClassName($value);
+
+        return $rule;
     }
 
     /**

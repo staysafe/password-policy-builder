@@ -49,7 +49,7 @@ class HumanReadablePolicy implements HumanReadablePolicyInterface
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     public function getHumanReadableConstraints(): array
     {

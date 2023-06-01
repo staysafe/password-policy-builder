@@ -53,7 +53,7 @@ final class MinimumLengthRule implements RuleInterface
      * Returns the rule as an associative array
      * self::class => rule.
      *
-     * @return array
+     * @return array<class-string, int>
      */
     public function getRule(): array
     {

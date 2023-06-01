@@ -27,6 +27,9 @@ final class MaximumLengthRule implements RuleInterface
         return $this->maxLength >= strlen($value);
     }
 
+    /**
+     * @return array<class-string, int>
+     */
     public function getRule(): array
     {
         return [self::class => $this->maxLength];
