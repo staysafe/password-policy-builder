@@ -40,7 +40,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT
 ## Credits
 
 - [Antonios Pavlakis][link-author]
-- [All Contributors][link-contributors]
+- [Peter Mead]
 
 ## License
 
@@ -53,8 +53,6 @@ The BSD 3-Clause License. Please see [License File](LICENSE) for more informatio
 [ico-downloads]: https://img.shields.io/packagist/dt/staysafe/password-policy-builder.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/staysafe/password-policy-builder
-[link-travis]: https://travis-ci.org/staysafe/password-policy-builder
 [link-coveralls]: https://coveralls.io/github/staysafe/password-policy-builder
 [link-downloads]: https://packagist.org/packages/staysafe/password-policy-builder
 [link-author]: https://github.com/pavlakis
-[link-contributors]: ../../contributors
