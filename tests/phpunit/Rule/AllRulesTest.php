@@ -5,6 +5,7 @@ namespace StaySafe\Password\Policy\Unit\Rule;
 use PHPUnit\Framework\TestCase;
 use StaySafe\Password\Policy\Rule\DigitRule;
 use StaySafe\Password\Policy\Rule\RuleInterface;
+use StaySafe\Password\Policy\Rule\MaximumLengthRule;
 use StaySafe\Password\Policy\Rule\MinimumLengthRule;
 use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
 use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
@@ -50,6 +51,11 @@ final class AllRulesTest extends TestCase
             [MinimumLengthRule::class, 8, 'aaaaaaaa', true, 'Password should be at least 8 characters long'],
             [MinimumLengthRule::class, 8, '12345678', true, 'Password should be at least 8 characters long'],
             [MinimumLengthRule::class, 12, 'aaaaaaaa1234', true, 'Password should be at least 12 characters long'],
+
+            [MaximumLengthRule::class, 8, 'AAAAAAAA', true, 'Password should be at most 8 characters long'],
+            [MaximumLengthRule::class, 8, 'aaaaaaaa', true, 'Password should be at most 8 characters long'],
+            [MaximumLengthRule::class, 8, '12345678', true, 'Password should be at most 8 characters long'],
+            [MaximumLengthRule::class, 5, 'aaAA12', false, 'Password should be at most 5 characters long'],
 
             [SpecialCharacterRule::class, 0, 'a', true, 'Password should have at least 0 special characters'],
             [SpecialCharacterRule::class, 1, '£10', true, 'Password should have at least 1 special character'],
