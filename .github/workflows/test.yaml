@@ -14,16 +14,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-      - name: Roave Security advisories
-        run: composer require --dev roave/security-advisories:dev-latest
-      - name: The PHP Security Checker
-        uses: symfonycorp/security-checker-action@v2
+      - name: Composer Security check
+        run: composer audit
   tests:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '7.2', '7.3' ]
+        php-versions: [ '7.2', '7.3', '7.4', '8.0', '8.1' ]
     steps:
       - name: checkout project
         uses: actions/checkout@v2
