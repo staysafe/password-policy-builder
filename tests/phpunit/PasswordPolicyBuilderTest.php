@@ -6,6 +6,13 @@ use StaySafe\Password\Policy\Policy\JsonPolicy;
 
 final class PasswordPolicyBuilderTest extends TestCase {
 
+    function initialise_password_policy(){
+        $jsonConstraints = file_get_contents(__DIR__ . '/fixtures/policy.json');
+        $policy = new JsonPolicy($jsonConstraints);
+
+        return $passwordPolicyBuilder = new PasswordPolicyBuilder($policy);
+    }
+
     function test_password_policy_object_contains_password_policy(){
 
         $jsonConstraints = file_get_contents(__DIR__ . '/fixtures/policy.json');
@@ -21,17 +28,13 @@ final class PasswordPolicyBuilderTest extends TestCase {
 
     function test_password_that_meets_constraints_is_valid(){
 
-        $jsonConstraints = file_get_contents(__DIR__ . '/fixtures/policy.json');
-        $policy = new JsonPolicy($jsonConstraints);
-
-        $passwordPolicyBuilder = new PasswordPolicyBuilder($policy);
+        $passwordPolicyBuilder = $this->initialise_password_policy();
 
         $validConstraint = $passwordPolicyBuilder->isValid('Pho$4r0us!12');
 
         self::assertTrue($validConstraint);
 
     }
-
 
 
 }
