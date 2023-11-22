@@ -1,8 +1,7 @@
 <?php
 
-namespace App\User\Password\Policy;
+namespace StaySafe\Password\Policy\Policy;
 
-use StaySafe\Password\Policy\Policy\PolicyInterface;
 use StaySafe\Password\Policy\Rule\RuleInterface;
 use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
@@ -37,6 +36,7 @@ final class ArrayPolicy implements PolicyInterface
     }
 
     /**
+     * @return RuleInterface
      * @throws InvalidRuleTypeException
      */
     private function getRule(string $ruleClassName, int $number): RuleInterface

@@ -2,22 +2,17 @@
 
 namespace StaySafe\Password\Policy;
 
+use StaySafe\Password\Policy\Policy\ArrayPolicy;
+use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
+use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\RuleInterface;
 use StaySafe\Password\Policy\Policy\PolicyInterface;
 
 class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
 {
-    /**
-     * @var PolicyInterface
-     */
-    private $policy;
 
-    /**
-     * @param PolicyInterface $policy
-     */
-    public function __construct(PolicyInterface $policy)
+    public function __construct(private PolicyInterface $policy)
     {
-        $this->policy = $policy;
     }
 
     /**
@@ -80,7 +75,7 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
      *
      * @return array<class-string, int>
      */
-    private static function flattenRules(array $rules): array
+    static function flattenRules(array $rules): array
     {
         return array_merge(...$rules);
     }
@@ -93,12 +88,13 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
     private static function getRulesFromConstraints(array $constraints): array
     {
         return array_map(self::getRuleFromConstraint(...), $constraints, []);
+
     }
 
     /**
      * @return array<class-string, int>
      */
-    private static function getRuleFromConstraint(RuleInterface $constraint): array
+    function getRuleFromConstraint(RuleInterface $constraint): array
     {
         return $constraint->getRule();
     }
