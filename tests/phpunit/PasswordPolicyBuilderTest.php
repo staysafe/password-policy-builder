@@ -1,14 +1,14 @@
 <?php
 
-use StaySafe\Password\Policy\Test\Policy\Policy\ArrayPolicy;
+
 use PHPUnit\Framework\TestCase;
-use StaySafe\Password\Policy\Test\Policy\PasswordPolicyBuilder;
-use StaySafe\Password\Policy\Test\Policy\Policy\JsonPolicy;
-use StaySafe\Password\Policy\Test\Policy\Rule\DigitRule;
-use StaySafe\Password\Policy\Test\Policy\Rule\LowerCaseCharacterRule;
-use StaySafe\Password\Policy\Test\Policy\Rule\MinimumLengthRule;
-use StaySafe\Password\Policy\Test\Policy\Rule\SpecialCharacterRule;
-use StaySafe\Password\Policy\Test\Policy\Rule\UpperCaseCharacterRule;
+use StaySafe\Password\Policy\PasswordPolicyBuilder;
+use StaySafe\Password\Policy\Policy\ArrayPolicy;
+use StaySafe\Password\Policy\Rule\DigitRule;
+use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
+use StaySafe\Password\Policy\Rule\MinimumLengthRule;
+use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
+use StaySafe\Password\Policy\Rule\UpperCaseCharacterRule;
 
 final class PasswordPolicyBuilderTest extends TestCase
 {
@@ -31,7 +31,7 @@ final class PasswordPolicyBuilderTest extends TestCase
     function test_password_policy_object_contains_password_policy()
     {
 
-       $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
+        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
 
         $actualPolicy = $passwordPolicyBuilder->getPolicy();
 
@@ -39,27 +39,91 @@ final class PasswordPolicyBuilderTest extends TestCase
 
     }
 
-    function test_password_that_meets_constraints_is_valid()
+    /**
+     * @dataProvider providePassword
+     */
+    function test_password_that_meets_constraints_is_valid($password)
     {
 
         $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
 
-        $validConstraint = $passwordPolicyBuilder->isValid('Pho$4r0us!12');
+        $validConstraint = $passwordPolicyBuilder->isValid($password);
 
         self::assertTrue($validConstraint);
 
     }
 
-    function test_rule_from_constraint_can_be_retrieved(){
+    function test_rule_from_constraint_can_be_retrieved()
+    {
 
         $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
 
-        $digitRule = $passwordPolicyBuilder->getRuleFromConstraint(new DigitRule());
+        $rule = $passwordPolicyBuilder->getRuleFromConstraint(new DigitRule());
 
-        var_dump($digitRule);
-
-        self::assertEquals($digitRule, (new DigitRule)->getRule()); //DigitalRule::getRule() is for static methods
+        self::assertIsArray($rule);
+        self::assertEquals($rule, (new DigitRule)->getRule());
     }
 
+    /**
+     * @param $constraints
+     * @dataProvider provideConstraints
+     */
+    function test_rules_from_multiple_constraints_can_be_retrieved($constraints)
+    {
+
+        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
+
+        $rules = $passwordPolicyBuilder->getRulesFromConstraints($constraints);
+
+        foreach ($rules as $rule => $ruler) {
+
+            self::assertEquals($ruler->getRule(), $ruler);
+
+        }
+
+        //get a rule from constraint similar to how it's done in the method
+        //do it for each constraint
+
+        self::assertIsArray($rules);
+
+    }
+
+    /**
+     * @param $constraints
+     * @dataProvider provideConstraints
+     */
+    function test_flattened_arrays($constraints)
+    {
+
+        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
+
+        $collection = $passwordPolicyBuilder->
+        flattenRules($passwordPolicyBuilder->getRulesFromConstraints($constraints));
+        self::assertIsArray($collection);
+
+    }
+
+    /**
+     * @return string[]
+     */
+    static function providePassword(): array
+    {
+
+        return [
+            'password' => ['Phos4rou0$!2']
+        ];
+
+    }
+
+    static function provideConstraints(): array
+    {
+        return [
+            ['constraints' => [
+                new DigitRule(),
+                new MinimumLengthRule(),
+                new UpperCaseCharacterRule()]
+            ],
+        ];
+    }
 
 }

@@ -85,8 +85,9 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
      *
      * @return array<int, array<class-string, int>>
      */
-    private static function getRulesFromConstraints(array $constraints): array
+    static function getRulesFromConstraints(array $constraints): array
     {
+
         return array_map(self::getRuleFromConstraint(...), $constraints, []);
 
     }
@@ -94,7 +95,7 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
     /**
      * @return array<class-string, int>
      */
-    function getRuleFromConstraint(RuleInterface $constraint): array
+    static function getRuleFromConstraint(RuleInterface $constraint): array
     {
         return $constraint->getRule();
     }
