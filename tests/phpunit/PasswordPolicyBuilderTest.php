@@ -13,6 +13,8 @@ use StaySafe\Password\Policy\Rule\UpperCaseCharacterRule;
 final class PasswordPolicyBuilderTest extends TestCase
 {
 
+    private const RULE_CLASS_PREFIX = 'StaySafe\\Password\\Policy\\Rule\\';
+
     static function initialise_password_policy(): ArrayPolicy
     {
         $arrayConstraints = [
@@ -75,10 +77,15 @@ final class PasswordPolicyBuilderTest extends TestCase
 
         $rules = $passwordPolicyBuilder->getRulesFromConstraints($constraints);
 
-        foreach ($rules as $rule => $ruler) {
+        print_r($rules);
 
-            self::assertEquals($ruler->getRule(), $ruler);
+        foreach ($rules as $rule){
+            print_r($rule);
 
+            if($constraints->includes($rule)){
+
+                self::assertEquals($rule, (new self::RULE_CLASS_PREFIX)->getRule());
+            }
         }
 
         //get a rule from constraint similar to how it's done in the method
