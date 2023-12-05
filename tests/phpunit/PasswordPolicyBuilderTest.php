@@ -17,23 +17,16 @@ final class PasswordPolicyBuilderTest extends TestCase
 
     //  private const RULE_CLASS_PREFIX = 'StaySafe\\Password\\Policy\\Rule\\';
 
+
     /**
      * @throws InvalidRuleTypeException
      * @throws InvalidConstraintException
+     * @dataProvider provideConstraints
      */
-    public static function setUpPasswordPolicyBuilder(): \StaySafe\Password\Policy\PasswordPolicyBuilderInterface
+    public static function setUpPasswordPolicyBuilder($constraints): \StaySafe\Password\Policy\PasswordPolicyBuilderInterface
     {
-        $arrayConstraints = [
 
-            MinimumLengthRule::class => 8,
-            SpecialCharacterRule::class => 2,
-            DigitRule::class => 3,
-            UpperCaseCharacterRule::class => 1,
-            LowerCaseCharacterRule::class => 1
-
-        ];
-
-        $arrayPolicy = new ArrayPolicy($arrayConstraints);
+        $arrayPolicy = new ArrayPolicy($constraints);
 
         return new StaySafe\Password\Policy\Policy\PasswordPolicy\PasswordPolicyBuilder($arrayPolicy);
     }
@@ -41,22 +34,14 @@ final class PasswordPolicyBuilderTest extends TestCase
     /**
      * @throws InvalidRuleTypeException
      * @throws InvalidConstraintException
+     * @dataProvider provideConstraints
      */
-    public function test_set_up_function_returns_password_builder_correctly(){
+    public function test_set_up_function_returns_password_builder_correctly($constraints)
+    {
 
-        $arrayConstraints = [
+        $arrayPolicy = new ArrayPolicy($constraints);
 
-            MinimumLengthRule::class => 8,
-            SpecialCharacterRule::class => 2,
-            DigitRule::class => 3,
-            UpperCaseCharacterRule::class => 1,
-            LowerCaseCharacterRule::class => 1
-
-        ];
-
-        $arrayPolicy = new ArrayPolicy($arrayConstraints);
-
-        $passwordPolicySetUp = self::setUpPasswordPolicyBuilder();
+        $passwordPolicySetUp = self::setUpPasswordPolicyBuilder($constraints);
 
         $policyFromSetUpFunction = $passwordPolicySetUp->getPolicy();
 
@@ -67,38 +52,30 @@ final class PasswordPolicyBuilderTest extends TestCase
     /**
      * @throws InvalidRuleTypeException
      * @throws InvalidConstraintException
+     * @dataProvider provideConstraints
      */
-    public function test_policy_obtained_from_password_builder_equals_policy_obtained_set_up_password_policy_object(): void
+    public function test_policy_obtained_from_password_builder_equals_policy_obtained_from_set_up_password_policy_object($constraints): void
     {
 
-        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::setUpPasswordPolicyBuilder());
+        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::setUpPasswordPolicyBuilder($constraints));
 
         $policy = $passwordPolicyBuilder->getPolicy();
 
-        self::assertEquals((self::setUpPasswordPolicyBuilder())->getPolicy(), $policy);
+        self::assertEquals((self::setUpPasswordPolicyBuilder($constraints))->getPolicy(), $policy);
 
     }
 
     /**
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
+     * @dataProvider provideConstraints
      */
-    public function test_policy_obtained_from_password_builder_equals_policy(): void
+    public function test_policy_obtained_from_password_builder_equals_new_instance_of_same_policy($constraints): void
     {
 
-        $arrayConstraints = [
+        $arrayPolicy = new ArrayPolicy($constraints);
 
-            MinimumLengthRule::class => 8,
-            SpecialCharacterRule::class => 2,
-            DigitRule::class => 3,
-            UpperCaseCharacterRule::class => 1,
-            LowerCaseCharacterRule::class => 1
-
-        ];
-
-       $arrayPolicy = new ArrayPolicy($arrayConstraints);
-
-        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::setUpPasswordPolicyBuilder());
+        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::setUpPasswordPolicyBuilder($constraints));
 
         $policy = $passwordPolicyBuilder->getPolicy();
 
@@ -107,12 +84,21 @@ final class PasswordPolicyBuilderTest extends TestCase
     }
 
     /**
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
      * @dataProvider providePassword
      */
     public function test_password_that_meets_constraints_is_valid($password): void
     {
+        $constraints = [
+            MinimumLengthRule::class => 8,
+            SpecialCharacterRule::class => 2,
+            DigitRule::class => 3,
+            UpperCaseCharacterRule::class => 1,
+            LowerCaseCharacterRule::class => 1
+        ];
 
-        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::setUpPasswordPolicyBuilder());
+        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::setUpPasswordPolicyBuilder($constraints));
 
         $validConstraint = $passwordPolicyBuilder->isValid($password);
 
@@ -120,7 +106,48 @@ final class PasswordPolicyBuilderTest extends TestCase
 
     }
 
+    /**
+     * @return void
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
+     */
+    public function test_create_enforced_rules(): void
+    {
+        $constraints = [
+            MinimumLengthRule::class => 8,
+            SpecialCharacterRule::class => 2,
+            DigitRule::class => 3,
+            UpperCaseCharacterRule::class => 1,
+            LowerCaseCharacterRule::class => 1
+        ];
 
+        $rules = [
+            new MinimumLengthRule(),
+            new SpecialCharacterRule(),
+            new DigitRule(),
+            new UpperCaseCharacterRule(),
+            new LowerCaseCharacterRule()
+        ];
+
+        $passwordPolicyBuilder = self::setUpPasswordPolicyBuilder($constraints);
+
+        $decoupledPasswordPolicyBuilder = new PasswordPolicyBuilder($passwordPolicyBuilder);
+
+        $policy = $decoupledPasswordPolicyBuilder->getPolicy();
+
+        $enforcedRulesPolicy = $decoupledPasswordPolicyBuilder::createWithEnforcedRules($policy, $rules);
+
+       /* echo "this is a regular policy \n";
+        print_r($policy);
+
+        echo "this is from enforced rules \n";
+        print_r($enforcedRulesPolicy);*/
+
+        self::assertEquals($enforcedRulesPolicy, $decoupledPasswordPolicyBuilder);
+
+ //       self::assertIsArray($enforcedRulesPolicy);
+
+    }
 
     /**
      * @return string[]
@@ -129,19 +156,48 @@ final class PasswordPolicyBuilderTest extends TestCase
     {
 
         return [
-            'password' => ['Phos4rou0$!2']
+            ['Phos4rou0$!2']
         ];
 
     }
 
+    /**
+     * @return array[]
+     */
     public static function provideConstraints(): array
     {
         return [
-            ['constraints' => [
-                new DigitRule(),
-                new MinimumLengthRule(),
-                new UpperCaseCharacterRule()]
-            ],
+            [
+                //dataset #0
+                [
+                    MinimumLengthRule::class => 8,
+                    SpecialCharacterRule::class => 2,
+                    DigitRule::class => 3,
+                    UpperCaseCharacterRule::class => 1,
+                    LowerCaseCharacterRule::class => 1
+                ]
+
+            ]
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public static function provideRules(): array
+    {
+        return [
+            [
+                //dataset #0
+                [
+                    new MinimumLengthRule(),
+                    new SpecialCharacterRule(),
+                    new DigitRule(),
+                    new UpperCaseCharacterRule(),
+                    new LowerCaseCharacterRule()
+                ],
+
+            ]
         ];
     }
 
