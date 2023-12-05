@@ -3,47 +3,27 @@
 namespace StaySafe\Password\Policy;
 
 use StaySafe\Password\Policy\Policy\ArrayPolicy;
-use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
-use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\RuleInterface;
 use StaySafe\Password\Policy\Policy\PolicyInterface;
+use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
+use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
 
 class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
 {
-
-    public function __construct(private PolicyInterface $policy)
-    {
-    }
-
-    /**
-     * @param string $password
-     *
-     * @return bool
-     */
-    public function isValid(string $password): bool
-    {
-        foreach ($this->policy->getConstraints() as $constraint) {
-            /** @var RuleInterface $constraint */
-            if (!$constraint->isValid($password)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function getPolicy(): PolicyInterface
-    {
-        return $this->policy;
+    public function __construct(
+        private readonly PasswordPolicyBuilderInterface $passwordPolicyBuilder,
+    ) {
     }
 
     /**
      * @param RuleInterface[] $enforcedRules
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
      */
     public static function createWithEnforcedRules(PolicyInterface $policy, array $enforcedRules = []): self
     {
         return new self(
-            new PasswordPolicyBuilder(
+            new \StaySafe\Password\Policy\Policy\PasswordPolicyBuilder(
                 self::createPolicy($policy, $enforcedRules)
             )
         );
@@ -51,6 +31,8 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
 
     /**
      * @param RuleInterface[] $enforcedRules
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
      */
     private static function createPolicy(PolicyInterface $policy, array $enforcedRules): PolicyInterface
     {
@@ -75,7 +57,7 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
      *
      * @return array<class-string, int>
      */
-    static function flattenRules(array $rules): array
+    private static function flattenRules(array $rules): array
     {
         return array_merge(...$rules);
     }
@@ -85,19 +67,27 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
      *
      * @return array<int, array<class-string, int>>
      */
-    static function getRulesFromConstraints(array $constraints): array
+    private static function getRulesFromConstraints(array $constraints): array
     {
-
         return array_map(self::getRuleFromConstraint(...), $constraints, []);
-
     }
 
     /**
      * @return array<class-string, int>
      */
-    static function getRuleFromConstraint(RuleInterface $constraint): array
+    private static function getRuleFromConstraint(RuleInterface $constraint): array
     {
         return $constraint->getRule();
+    }
+
+    public function isValid(string $password): bool
+    {
+        return $this->passwordPolicyBuilder->isValid($password);
+    }
+
+    public function getPolicy(): PolicyInterface
+    {
+        return $this->passwordPolicyBuilder->getPolicy();
     }
 
 }
