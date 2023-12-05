@@ -6,6 +6,9 @@ use StaySafe\Password\Policy\Policy\ArrayPolicy;
 use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
 
+/**
+ * @covers StaySafe\Password\Policy\Policy\ArrayPolicy
+ */
 final class ArrayPolicyTest extends TestCase
 {
 
