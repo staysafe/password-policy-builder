@@ -30,7 +30,7 @@ class JsonPolicyTest extends TestCase
         $this->assertSame($result, $passwordPolicyBuilder->isValid($password));
     }
 
-    public function validatePasswordDataProvider(): array
+    public static function validatePasswordDataProvider(): array
     {
         return [
             ['abc!123#ABC', true],
@@ -53,7 +53,7 @@ class JsonPolicyTest extends TestCase
         new JsonPolicy($jsonConstraints);
     }
 
-    public function jsonConstraintsDataProvider(): array
+    public static function jsonConstraintsDataProvider(): array
     {
         return [
             [''],

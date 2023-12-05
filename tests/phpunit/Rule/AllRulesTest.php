@@ -15,14 +15,14 @@ final class AllRulesTest extends TestCase
 {
     /**
      * @param string $ruleClassName
-     * @param int    $occurrence
+     * @param int $occurrence
      * @param mixed  $value
-     * @param bool   $result
+     * @param bool $result
      * @param        $ruleDescription
      *
      * @dataProvider rulesDataProvider
      */
-    public function test_rule($ruleClassName, $occurrence, $value, $result, $ruleDescription): void
+    public function test_rule(string $ruleClassName, int $occurrence, mixed $value, bool $result, $ruleDescription): void
     {
         /** @var RuleInterface $rule */
         $rule = new $ruleClassName($occurrence);
@@ -32,7 +32,7 @@ final class AllRulesTest extends TestCase
         $this->assertSame([$ruleClassName => $occurrence], $rule->getRule());
     }
 
-    public function rulesDataProvider(): array
+    public static function rulesDataProvider(): array
     {
         return [
             [DigitRule::class, 0, 'aaa', true, 'Password should have at least 0 numbers'],
@@ -79,7 +79,7 @@ final class AllRulesTest extends TestCase
         new $ruleClassName($occurrence);
     }
 
-    public function negativeOccurrenceDataProvider(): array
+    public static function negativeOccurrenceDataProvider(): array
     {
         return [
             [DigitRule::class, -1],
