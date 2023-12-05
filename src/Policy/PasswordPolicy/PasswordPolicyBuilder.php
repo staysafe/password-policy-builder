@@ -1,6 +1,6 @@
 <?php
 
-namespace StaySafe\Password\Policy\Policy;
+namespace StaySafe\Password\Policy\Policy\PasswordPolicy;
 
 use StaySafe\Password\Policy\PasswordPolicyBuilderInterface;
 use StaySafe\Password\Policy\Policy\PolicyInterface;
