@@ -23,7 +23,7 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
     public static function createWithEnforcedRules(PolicyInterface $policy, array $enforcedRules = []): self
     {
         return new self(
-            new Policy\PasswordPolicyBuilder(
+            new Policy\PasswordPolicy\PasswordPolicyBuilder(
                 self::createPolicy($policy, $enforcedRules)
             )
         );
