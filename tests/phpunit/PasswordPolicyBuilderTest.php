@@ -12,6 +12,9 @@ use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
 use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
 use StaySafe\Password\Policy\Rule\UpperCaseCharacterRule;
 
+/**
+ * @covers StaySafe\Password\Policy\PasswordPolicyBuilder
+ */
 final class PasswordPolicyBuilderTest extends TestCase
 {
 
