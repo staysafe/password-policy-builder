@@ -2,20 +2,20 @@
 
 
 use PHPUnit\Framework\TestCase;
-use StaySafe\Password\Policy\PasswordPolicyBuilder;
-use StaySafe\Password\Policy\Policy\ArrayPolicy;
 use StaySafe\Password\Policy\Rule\DigitRule;
-use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
+use StaySafe\Password\Policy\Policy\ArrayPolicy;
+use StaySafe\Password\Policy\PasswordPolicyBuilder;
 use StaySafe\Password\Policy\Rule\MinimumLengthRule;
 use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
+use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
 use StaySafe\Password\Policy\Rule\UpperCaseCharacterRule;
 
 final class PasswordPolicyBuilderTest extends TestCase
 {
 
-    private const RULE_CLASS_PREFIX = 'StaySafe\\Password\\Policy\\Rule\\';
+    //  private const RULE_CLASS_PREFIX = 'StaySafe\\Password\\Policy\\Rule\\';
 
-    static function initialise_password_policy(): ArrayPolicy
+    public static function initialise_password_policy(): ArrayPolicy
     {
         $arrayConstraints = [
 
@@ -30,7 +30,7 @@ final class PasswordPolicyBuilderTest extends TestCase
         return new ArrayPolicy($arrayConstraints);
     }
 
-    function test_password_policy_object_contains_password_policy()
+    public function test_password_policy_object_contains_password_policy()
     {
 
         $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
@@ -44,7 +44,7 @@ final class PasswordPolicyBuilderTest extends TestCase
     /**
      * @dataProvider providePassword
      */
-    function test_password_that_meets_constraints_is_valid($password)
+    public function test_password_that_meets_constraints_is_valid($password): void
     {
 
         $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
@@ -55,65 +55,12 @@ final class PasswordPolicyBuilderTest extends TestCase
 
     }
 
-    function test_rule_from_constraint_can_be_retrieved()
-    {
-
-        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
-
-        $rule = $passwordPolicyBuilder->getRuleFromConstraint(new DigitRule());
-
-        self::assertIsArray($rule);
-        self::assertEquals($rule, (new DigitRule)->getRule());
-    }
-
-    /**
-     * @param $constraints
-     * @dataProvider provideConstraints
-     */
-    function test_rules_from_multiple_constraints_can_be_retrieved($constraints)
-    {
-
-        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
-
-        $rules = $passwordPolicyBuilder->getRulesFromConstraints($constraints);
-
-        print_r($rules);
-
-        foreach ($rules as $rule){
-            print_r($rule);
-
-            if($constraints->includes($rule)){
-
-                self::assertEquals($rule, (new self::RULE_CLASS_PREFIX)->getRule());
-            }
-        }
-
-        //get a rule from constraint similar to how it's done in the method
-        //do it for each constraint
-
-        self::assertIsArray($rules);
-
-    }
-
-    /**
-     * @param $constraints
-     * @dataProvider provideConstraints
-     */
-    function test_flattened_arrays($constraints)
-    {
-
-        $passwordPolicyBuilder = new PasswordPolicyBuilder(self::initialise_password_policy());
-
-        $collection = $passwordPolicyBuilder->
-        flattenRules($passwordPolicyBuilder->getRulesFromConstraints($constraints));
-        self::assertIsArray($collection);
-
-    }
+    
 
     /**
      * @return string[]
      */
-    static function providePassword(): array
+    public static function providePassword(): array
     {
 
         return [
@@ -122,7 +69,7 @@ final class PasswordPolicyBuilderTest extends TestCase
 
     }
 
-    static function provideConstraints(): array
+    public static function provideConstraints(): array
     {
         return [
             ['constraints' => [

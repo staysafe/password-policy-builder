@@ -1,9 +1,9 @@
 <?php
 
 use StaySafe\Password\Policy\Rule\DigitRule;
-use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
 use StaySafe\Password\Policy\Rule\MinimumLengthRule;
 use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
+use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
 use StaySafe\Password\Policy\Rule\UpperCaseCharacterRule;
 
 return [
