@@ -22,8 +22,8 @@ final class ArrayPolicyTest extends TestCase
             ['abc'],
             [date("l", mktime(0, 0, 0, 7, 1, 2000))],
             [1000000000000000000000000000000008888800000000000000000]
-           // [true], passes as boolean converted to int 1
-           // [0.0001] passes as decimal converted to int 0
+            // [true], passes as boolean converted to int 1
+            // [0.0001] passes as decimal converted to int 0
         ];
     }
 
@@ -67,6 +67,21 @@ final class ArrayPolicyTest extends TestCase
      * @return void
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
+     */
+    public function test_passing_negative_occurrence_throws_exception(): void
+    {
+
+        $this->expectException(InvalidArgumentException::class);
+
+        new ArrayPolicy([DigitRule::class => -1]);
+
+    }
+
+    /**
+     * @param $data
+     * @return void
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
      * @dataProvider provideInvalidData
      */
     public function test_passing_wrong_data_type_throws_exception($data): void
@@ -78,27 +93,35 @@ final class ArrayPolicyTest extends TestCase
 
     }
 
+    /**
+     * @param $data
+     * @return void
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
+     */
+    public function test_passing_valid_data_type_creates_instance_of_policy()
+    {
+        $policy = new ArrayPolicy([DigitRule::class => 9]);
 
-    /* function test_get_constraints_returns_the_array_passed_to_constructor()
-     {
+        self::assertObjectHasProperty('constraints', $policy);
 
-         $policy = self::set_up();
+    }
 
-         $constraints = $policy->getConstraints();
 
-         $arrayConstraints = [
+    /**
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
+     */
+    function test_get_constraints_returns_the_array_passed_to_constructor()
+    {
 
-             MinimumLengthRule::class => 8,
-             SpecialCharacterRule::class => 2,
-             DigitRule::class => 3,
-             UpperCaseCharacterRule::class => 1,
-             LowerCaseCharacterRule::class => 1
+        $arrayConstraints = [DigitRule::class => 9];
 
-         ];
+        $constraints = (new ArrayPolicy($arrayConstraints))->getConstraints();
 
-         //  self::assertSame($arrayConstraints, $constraints);
+        self::assertSame(array_keys($arrayConstraints), array_keys($constraints));
 
-     }*/
+    }
 
 
 }
