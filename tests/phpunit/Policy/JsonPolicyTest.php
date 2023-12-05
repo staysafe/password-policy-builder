@@ -4,7 +4,7 @@ namespace StaySafe\Password\Policy\Unit\Rule;
 
 use PHPUnit\Framework\TestCase;
 use StaySafe\Password\Policy\Policy\JsonPolicy;
-use StaySafe\Password\Policy\PasswordPolicyBuilder;
+use StaySafe\Password\Policy\Policy\PasswordPolicy\PasswordPolicyBuilder;
 use StaySafe\Password\Policy\Format\HumanReadablePolicy;
 use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
