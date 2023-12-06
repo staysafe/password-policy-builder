@@ -12,7 +12,7 @@ final class ArrayPolicy implements PolicyInterface
     private array $constraints = [];
 
     /**
-     * @param RuleInterface[] $policy
+     * @param int[] $policy
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */
@@ -22,7 +22,7 @@ final class ArrayPolicy implements PolicyInterface
     }
 
     /**
-     * @param array $policy
+     * @param int[] $policy
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */

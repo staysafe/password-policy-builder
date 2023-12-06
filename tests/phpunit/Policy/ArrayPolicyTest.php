@@ -99,7 +99,7 @@ final class ArrayPolicyTest extends TestCase
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */
-    public function test_passing_valid_data_type_creates_instance_of_policy()
+    public function test_passing_valid_data_type_creates_instance_of_policy_class(): void
     {
         $policy = new ArrayPolicy([DigitRule::class => 9]);
 
@@ -112,7 +112,7 @@ final class ArrayPolicyTest extends TestCase
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */
-    function test_get_constraints_method_returns_same_array_key_of_rule_passed_to_constructor()
+    public function test_get_constraints_method_returns_same_array_key_of_rule_passed_to_constructor(): void
     {
 
         $arrayConstraints = [DigitRule::class => 9];
@@ -122,6 +122,7 @@ final class ArrayPolicyTest extends TestCase
         self::assertSame(array_keys($arrayConstraints), array_keys($constraints));
 
     }
+
 
 
 }

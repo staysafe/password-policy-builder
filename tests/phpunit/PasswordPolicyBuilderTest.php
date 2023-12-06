@@ -5,12 +5,12 @@ use PHPUnit\Framework\TestCase;
 use StaySafe\Password\Policy\Rule\DigitRule;
 use StaySafe\Password\Policy\Policy\ArrayPolicy;
 use StaySafe\Password\Policy\PasswordPolicyBuilder;
-use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
-use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\MinimumLengthRule;
 use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
 use StaySafe\Password\Policy\Rule\LowerCaseCharacterRule;
 use StaySafe\Password\Policy\Rule\UpperCaseCharacterRule;
+use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
+use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
 
 /**
  * @covers StaySafe\Password\Policy\PasswordPolicyBuilder

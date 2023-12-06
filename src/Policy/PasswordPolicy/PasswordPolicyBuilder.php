@@ -2,9 +2,9 @@
 
 namespace StaySafe\Password\Policy\Policy\PasswordPolicy;
 
-use StaySafe\Password\Policy\PasswordPolicyBuilderInterface;
-use StaySafe\Password\Policy\Policy\PolicyInterface;
 use StaySafe\Password\Policy\Rule\RuleInterface;
+use StaySafe\Password\Policy\Policy\PolicyInterface;
+use StaySafe\Password\Policy\PasswordPolicyBuilderInterface;
 
 class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
 {
