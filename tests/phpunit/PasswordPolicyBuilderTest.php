@@ -114,7 +114,7 @@ final class PasswordPolicyBuilderTest extends TestCase
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */
-    public function test_object_created_from_constructor_can_be_used_to_create_equal_object_using_enforced_rules_method(): void
+    public function test_object_created_from_constructor_equals_object_created_using_enforced_rules_method(): void
     {
         $constraints = [
             MinimumLengthRule::class => 8,
@@ -132,13 +132,15 @@ final class PasswordPolicyBuilderTest extends TestCase
             new LowerCaseCharacterRule()
         ];
 
+        $policy = new ArrayPolicy($constraints);
+
         $passwordPolicyBuilder = self::setUpPasswordPolicyBuilder($constraints);
 
         $decoupledPasswordPolicyBuilder = new PasswordPolicyBuilder($passwordPolicyBuilder);
 
-        $policy = $decoupledPasswordPolicyBuilder->getPolicy();
+       // $enforcedRulesPolicy = $decoupledPasswordPolicyBuilder::createWithEnforcedRules($policy, $rules);
 
-        $enforcedRulesPolicy = $decoupledPasswordPolicyBuilder::createWithEnforcedRules($policy, $rules);
+        $enforcedRulesPolicy = PasswordPolicyBuilder::createWithEnforcedRules($policy, $rules);
 
         self::assertEquals($enforcedRulesPolicy, $decoupledPasswordPolicyBuilder);
 

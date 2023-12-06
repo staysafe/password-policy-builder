@@ -5,6 +5,8 @@ use StaySafe\Password\Policy\Rule\DigitRule;
 use StaySafe\Password\Policy\Policy\ArrayPolicy;
 use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
+use StaySafe\Password\Policy\Rule\MinimumLengthRule;
+use StaySafe\Password\Policy\Rule\SpecialCharacterRule;
 
 /**
  * @covers StaySafe\Password\Policy\Policy\ArrayPolicy
@@ -94,14 +96,14 @@ final class ArrayPolicyTest extends TestCase
     }
 
     /**
-     * @param $data
      * @return void
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
+     * @dataProvider provideConstraints
      */
-    public function test_passing_valid_data_type_creates_instance_of_policy_class(): void
+    public function test_passing_valid_data_type_creates_instance_of_policy_class($arrayConstraints): void
     {
-        $policy = new ArrayPolicy([DigitRule::class => 9]);
+        $policy = new ArrayPolicy($arrayConstraints);
 
         self::assertObjectHasProperty('constraints', $policy);
 
@@ -111,11 +113,10 @@ final class ArrayPolicyTest extends TestCase
     /**
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
+     * @dataProvider provideConstraints
      */
-    public function test_get_constraints_method_returns_same_array_key_of_rule_passed_to_constructor(): void
+    public function test_get_constraints_method_returns_same_array_key_of_rule_passed_to_constructor($arrayConstraints): void
     {
-
-        $arrayConstraints = [DigitRule::class => 9];
 
         $constraints = (new ArrayPolicy($arrayConstraints))->getConstraints();
 
@@ -123,6 +124,33 @@ final class ArrayPolicyTest extends TestCase
 
     }
 
+    public static function provideConstraints(): array
+    {
 
+        return [
+            [
+                [
+                    MinimumLengthRule::class => 8,
+                    SpecialCharacterRule::class => 2,
+                    DigitRule::class => 3
+                ]
+            ]
+        ];
+
+
+    }
+
+    public static function provideRules(): array
+    {
+        return [
+            [
+                [
+                    new MinimumLengthRule(),
+                    new SpecialCharacterRule(),
+                    new DigitRule()
+                ]
+            ]
+        ];
+    }
 
 }
