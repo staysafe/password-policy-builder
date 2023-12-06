@@ -12,15 +12,17 @@ final class ArrayPolicy implements PolicyInterface
     private array $constraints = [];
 
     /**
+     * @param RuleInterface[] $policy
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */
-    public function __construct(array $policy)
+    public function __construct(array $policy) //this is not a policy it's a rule
     {
         $this->loadConstraints($policy);
     }
 
     /**
+     * @param array $policy
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */
@@ -36,6 +38,8 @@ final class ArrayPolicy implements PolicyInterface
     }
 
     /**
+     * @param string $ruleClassName
+     * @param int $number
      * @return RuleInterface
      * @throws InvalidRuleTypeException
      */

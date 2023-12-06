@@ -112,7 +112,7 @@ final class ArrayPolicyTest extends TestCase
      * @throws InvalidConstraintException
      * @throws InvalidRuleTypeException
      */
-    function test_get_constraints_returns_the_array_passed_to_constructor()
+    function test_get_constraints_method_returns_same_array_key_of_rule_passed_to_constructor()
     {
 
         $arrayConstraints = [DigitRule::class => 9];

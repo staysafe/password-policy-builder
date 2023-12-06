@@ -1,6 +1,6 @@
 <?php
 
-namespace StaySafe\Password\Policy\Unit\Rule;
+namespace StaySafe\Password\Policy\Test\Policy;
 
 use PHPUnit\Framework\TestCase;
 use StaySafe\Password\Policy\Policy\JsonPolicy;
