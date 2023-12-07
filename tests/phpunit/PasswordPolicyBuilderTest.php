@@ -146,6 +146,24 @@ final class PasswordPolicyBuilderTest extends TestCase
 
     }
 
+    /**
+     * @throws InvalidConstraintException
+     * @throws InvalidRuleTypeException
+     */
+    //exception to be added
+    public function test_that_password_policy_builder_throws_exception_when_policy_constraints_and_rule_class_name_do_not_match(){
+
+        $arrayPolicy = new ArrayPolicy([UpperCaseCharacterRule::class=>9]);
+
+        $passwordPolicyBuilder = new StaySafe\Password\Policy\Policy\PasswordPolicy\PasswordPolicyBuilder($arrayPolicy);
+
+        $decoupledPasswordPolicyBuilder = new PasswordPolicyBuilder($passwordPolicyBuilder);
+
+        $enforcedRulesPolicyBuilder = PasswordPolicyBuilder::createWithEnforcedRules
+        (new ArrayPolicy([UpperCaseCharacterRule::class=>9]), [new DigitRule()]);
+
+        self::assertNotEquals($enforcedRulesPolicyBuilder, $decoupledPasswordPolicyBuilder);
+    }
 
     /**
      * @return string[]

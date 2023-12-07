@@ -36,6 +36,7 @@ class PasswordPolicyBuilder implements PasswordPolicyBuilderInterface
      */
     private static function createPolicy(PolicyInterface $policy, array $enforcedRules): PolicyInterface
     {
+       // if (!is_subclass_of($policy->getConstraints(), RuleInterface::class))
         $rules = self::getRules($policy->getConstraints());
         $rules += self::getRules($enforcedRules);
 

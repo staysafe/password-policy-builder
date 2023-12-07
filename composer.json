@@ -46,7 +46,7 @@
         "test-coverage-ci": "phpunit --verbose --coverage-clover build/logs/clover.xml",
         "check-style": "php-cs-fixer fix --dry-run",
         "fix-style": "php-cs-fixer fix",
-        "static-analysis": "phpstan analyse src --level 7",
+        "static-analysis": "phpstan analyse src --level 9",
         "test-ci": [
             "@check-style",
             "@test-coverage-ci"
