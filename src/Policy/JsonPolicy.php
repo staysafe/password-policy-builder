@@ -34,6 +34,9 @@ class JsonPolicy implements PolicyInterface
      */
     private function loadConstraints(string $constraints): void
     {
+        /**
+         * @var array<string, int> $policy
+         */
         $policy = json_decode($constraints, true);
 
         if (empty($policy)) {
@@ -41,7 +44,7 @@ class JsonPolicy implements PolicyInterface
         }
 
         foreach ($policy as $constraintClass => $number) {
-            $this->constraints[(string)$constraintClass] = $this->get((string)$constraintClass, $number);
+            $this->constraints[$constraintClass] = $this->get($constraintClass, $number);
         }
     }
 

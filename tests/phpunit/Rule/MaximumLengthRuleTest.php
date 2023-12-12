@@ -19,7 +19,7 @@ class MaximumLengthRuleTest extends TestCase
         static::assertTrue($rule->isValid($password));
     }
 
-    public function passwordDoesNotExceedMaximumLengthDataProvider(): array
+    public static function passwordDoesNotExceedMaximumLengthDataProvider(): array
     {
         return [
             [16, 'abcdef'],
@@ -39,7 +39,7 @@ class MaximumLengthRuleTest extends TestCase
         static::assertFalse($rule->isValid($password));
     }
 
-    public function passwordDoesExceedMaximumLengthDataProvider()
+    public static function passwordDoesExceedMaximumLengthDataProvider(): array
     {
         return [
             [15, '01234567890123456789'],

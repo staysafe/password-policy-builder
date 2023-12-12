@@ -1,13 +1,13 @@
 <?php
 
-namespace StaySafe\Password\Policy\Unit\Rule;
+namespace StaySafe\Password\Policy\Test\Policy;
 
 use PHPUnit\Framework\TestCase;
 use StaySafe\Password\Policy\Policy\JsonPolicy;
-use StaySafe\Password\Policy\PasswordPolicyBuilder;
 use StaySafe\Password\Policy\Format\HumanReadablePolicy;
 use StaySafe\Password\Policy\Rule\Exception\InvalidRuleTypeException;
 use StaySafe\Password\Policy\Rule\Exception\InvalidConstraintException;
+use StaySafe\Password\Policy\Policy\PasswordPolicy\PasswordPolicyBuilder;
 
 class JsonPolicyTest extends TestCase
 {
@@ -30,7 +30,7 @@ class JsonPolicyTest extends TestCase
         $this->assertSame($result, $passwordPolicyBuilder->isValid($password));
     }
 
-    public function validatePasswordDataProvider(): array
+    public static function validatePasswordDataProvider(): array
     {
         return [
             ['abc!123#ABC', true],
@@ -53,7 +53,7 @@ class JsonPolicyTest extends TestCase
         new JsonPolicy($jsonConstraints);
     }
 
-    public function jsonConstraintsDataProvider(): array
+    public static function jsonConstraintsDataProvider(): array
     {
         return [
             [''],
